@@ -1,0 +1,200 @@
+
+/*
+Author: Kian Ankerson
+Description: This programs run a Yachtzee game using arrays. 
+Date: 10/28/2020
+Class TA: Luke Martinez
+
+*/
+#ifndef PA5
+#define PA5
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+/*Function Name : roll_die
+Description : Rolls a 6 sided die 5 times and stores into an array
+Input Parameters : N / A
+Returns : An integer value 1 through 6
+Preconditions : Srand is used for time.
+Postconditions : N / A
+*/
+void roll_die(int dice_array[],int size);
+
+/*
+Function Name: display_dice
+Description: prints ASCII art for dice rolls;
+Input Parameters: array of integers
+Returns: N/A
+Preconditions: Dice are within 1-6
+Postconditions: N/A
+*/
+void display_dice(int dice_array[], int size);
+/*
+Function Name: game_menu
+Description: Opens a game menu that allows users to 1. play game 2. display rules. 3. exit. Will display rules if selected.
+Input Parameters: N/A
+Returns: 1 if Users wishes to play, -1 if User wishes to exit.
+Preconditions: N/A
+Postconditions: N/A
+*/
+int game_menu();
+
+/*
+Function Name: press_any_key_to_roll_dice
+Description: Pauses system so when user presses any key the program resumes.
+Input Parameters: N/A
+Returns: N/A
+Preconditions: N/A
+Postconditions: N/A
+*/
+void press_any_key_to_roll_dice();
+/*
+Function Name: ask_for_score_save
+Description: asks user if they want to save a score.
+Input Parameters: N/A
+Returns: 1 if true, 0 if false
+Preconditions: N/A
+Postconditions: N/A
+*/
+int ask_for_score_save();
+/*
+Function Name: reroll_dice
+Description: asks user to enter die numbers they want to be rerolled, and adjusts the values in the dice array inputted.
+Input Parameters: The array storing dice values
+Returns: N/A
+Preconditions: N/A
+Postconditions: N/A
+*/
+void reroll_dice(int dice_array[]);
+/*
+Function Name: print_score
+Description: prints out values of the scorecard array
+Input Parameters: the scorecard as an int array, the size of the array, the integer of the player number (1 or 2)
+Returns: N/A
+Preconditions: N/A
+Postconditions: N/A
+*/
+void print_score(int scorecard[], int size, int player);
+/*
+Function Name: choose_combo
+Description: asks user which scoring combination they would like to choose
+Input Parameters: scorecard array
+Returns: N/A
+Preconditions: N/A
+Postconditions: N/A
+*/
+int choose_combo(int scorecard[]);
+/*
+Function Name: calculate_sums_score
+Description: calculates score if user wishes to score a sums of combination
+Input Parameters: scorecard array, dice array, option corresponding to which sum (1, 2,3,4,5 or 6)
+Returns: N/A
+Preconditions: N/A
+Postconditions: N/A
+*/
+void calculate_sums_score(int scorecard[], int dice_array[], int option);
+/*
+Function Name: check_3kind
+Description: checks if dice array is a 3 of a kind and adjusts scorecard accordingly
+Input Parameters: a sorted dice array in ascending order and scorecard array
+Returns: N/A
+Preconditions: The dice array is sorted in ascending order
+Postconditions: scorecard updated
+*/
+void check_3kind(int scorecard[], int dice_array[]);
+/*
+Function Name: bubble_sort
+Description: sorts an array size 5 in ascending order
+Input Parameters: length 5 array
+Returns: N/A
+Preconditions: N/A
+Postconditions: inputted dice array is sorted
+*/
+void bubble_sort(int dice_array[]);
+/*
+Function Name: check_4kind
+Description: checks if dice array is 4 of a kind and adjusts scorecard accordingly
+Input Parameters: a sorted dice array
+Returns: N/A
+Preconditions: N/A
+Postconditions: scorecard is updated
+*/
+void check_4kind(int scorecard[], int dice_array[]);
+/*
+Function Name: check_full_house
+Description: checks if dice array contains a full house and adjusts scorecard accordingly
+Input Parameters: a dice array and scorecard array
+Returns: N/A
+Preconditions: input array is sorted
+Postconditions: scorecard is updated
+*/
+void check_full_house(int scorecard[], int dice_array[]);
+/*
+Function Name: check_small_straight
+Description: checks if dice array contains a small straight and adjusts scorecard accordingly
+Input Parameters: a dice array and scorecard array
+Returns: N/A
+Preconditions: N/A
+Postconditions: scorecard is updated
+*/
+void check_small_straight(int scorecard[], int dice_array[]);
+/*
+Function Name: check_large_straight
+Description: checks if dice array contains a large straight and adjusts scorecard accordingly
+Input Parameters: a dice array and scorecard array
+Returns: N/A
+Preconditions: dice array is sorted
+Postconditions: scorecard is adjusted accordingly
+*/
+void check_large_straight(int scorecard[], int dice_array[]);
+/*
+Function Name: check_yahtzee
+Description: checks if dice array contains a yahtzee and adjusts scorecard accordingly
+Input Parameters: a dice array and scorecard array
+Returns: N/A
+Preconditions: N/A
+Postconditions: scorecard is adjusted accordingly
+*/
+void check_yahtzee(int scorecard[], int dice_array[]);
+/*
+Function Name: calculate_chance
+Description: sums values of 5 dice and adjusts scorecard
+Input Parameters: a dice array and scorecard array
+Returns: N/A
+Preconditions: N/A
+Postconditions: scorecard is adjusted accordingly
+*/
+void calculate_chance(int scorecard[], int dice_array[]);
+/*
+Function Name: check_full
+Description: checks scorecards are full(all values are >=0
+Input Parameters: two scorecard arrays
+Returns: 1 if both are full, 0 if not
+Preconditions: N/A
+Postconditions: N/A
+*/
+int check_full(int scorecard[], int scorecard2 []);
+/*
+Function Name: sum_score
+Description: sums up score on scorecard array. Also adds bonus of 35 if sums score is greater than 62
+Input Parameters: scorecard array
+Returns: the sum of the scorecard (integer)
+Preconditions: N/A
+Postconditions: N/A
+*/
+int sum_score(int scorecard[]);
+/*
+Function Name: determine_winner
+Description: checks to see which of 2 players had a higher score, and prints who the winner is or if a tie occurred
+Input Parameters: 2 total scores
+Returns: N/A
+Preconditions: total scores for each players are calculated
+Postconditions: N/A
+*/
+void determine_winner(int p1, int p2);
+#endif
+
