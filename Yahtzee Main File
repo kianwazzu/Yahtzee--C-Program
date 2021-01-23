@@ -1,0 +1,217 @@
+#include "PA5.h"
+int main(void)
+{
+	srand((unsigned int)time(NULL));
+	int play_game = 0;
+
+	int p1_scorecard[13] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, p2_scorecard[13] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, five_dice[5] = { 0 };
+	int count_rolls = 1, save_score = 0, player = 1, count_turns = 0, combo_choice = 0;
+	while (play_game != -1)		//so it loops if bad input it entered
+	{
+		play_game = game_menu();
+
+
+
+
+		if (play_game == 1)	//if 2 is inputted to play game 
+		{
+			int full_cards = 0;
+			while (full_cards!= 1)	//while the scorecards are not full
+			{
+				system("cls");
+				count_rolls = 1;
+				printf("Player %d is rolling!\n", player);
+				press_any_key_to_roll_dice();	//this is the initial die roll 
+				system("cls");
+				roll_die(five_dice, 5);
+				display_dice(five_dice, 5);
+				printf("Rolls used: %d. Rolls Remaining: %d\n", count_rolls, 3 - count_rolls);
+				if (player == 1)print_score(p1_scorecard, 13, player);			//prints scorecards
+				else if (player == 2)print_score(p2_scorecard, 13, player);
+				save_score = ask_for_score_save();
+				for (/*count_rolls = 2*/; count_rolls <= 3 && save_score != 1;/* count_rolls++*/)	//enters this secondary loop if user wants to reroll 
+				{
+					count_rolls += 1;
+					reroll_dice(five_dice);
+					display_dice(five_dice, 5);
+					printf("Rolls used: %d. Rolls Remaining: %d\n", count_rolls, 3 - count_rolls);	//rerolls dice and counts roll number
+					if (count_rolls < 3)save_score = ask_for_score_save();
+					if (count_rolls == 3)save_score = 1;
+					
+					if (save_score == 1 || count_rolls == 3)
+					{
+						if (player == 1)				
+						{
+							print_score(p1_scorecard, 13, player);
+							combo_choice = choose_combo(p1_scorecard);
+							if (combo_choice <= 6)				//asks user which combo they like to score and does necessary functions to adjust scorecard
+								calculate_sums_score(p1_scorecard, five_dice, combo_choice);
+							else if (combo_choice > 6)
+								bubble_sort(five_dice);
+							switch (combo_choice)
+							{
+							case 7:
+								check_3kind(p1_scorecard, five_dice);
+								break;
+							case 8: 
+								check_4kind(p1_scorecard, five_dice);
+								break; 
+							case 9:
+								check_full_house(p1_scorecard, five_dice);
+								break;
+							case 10:
+								check_small_straight(p1_scorecard, five_dice);
+								break;
+							case 11:
+								check_large_straight(p1_scorecard, five_dice);
+								break;
+							case 12:
+								
+								check_yahtzee(p1_scorecard, five_dice);
+								break;
+							case 13:
+								calculate_chance(p1_scorecard, five_dice);
+								break;
+							}
+							system("cls");
+							print_score(p1_scorecard, 13, player);
+							system("pause");
+						}
+
+						else if (player == 2)	//the same code as above but for player 2. In my thought process I could either make the functions longer or the main longer so I just ended up doing this in main
+						{
+							print_score(p2_scorecard, 13, player);
+							combo_choice = choose_combo(p2_scorecard);
+							if (combo_choice <= 6)
+							calculate_sums_score(p2_scorecard, five_dice, combo_choice);
+							else if (combo_choice > 6)
+								bubble_sort(five_dice);
+							switch (combo_choice)
+							{
+							case 7:
+								check_3kind(p2_scorecard, five_dice);
+								break;
+							case 8:
+								check_4kind(p2_scorecard, five_dice);
+								break;
+							case 9:
+								check_full_house(p2_scorecard, five_dice);
+								break;
+							case 10:													//checking if lower section combos are valid
+								check_small_straight(p2_scorecard, five_dice);
+								break;
+							case 11:
+								check_large_straight(p2_scorecard, five_dice);
+								break;
+							case 12:
+								check_yahtzee(p2_scorecard, five_dice);
+								break;
+							case 13:
+								calculate_chance(p2_scorecard, five_dice);
+								break;
+							}
+							system("cls");
+							print_score(p2_scorecard, 13, player);
+							system("pause");
+						}
+					}
+
+				}
+				if (save_score = 1 && count_rolls == 1)
+					if (player == 1)
+					{												//this is where it goes if the user wants to save the very first roll combo
+						print_score(p1_scorecard, 13, player);
+						combo_choice = choose_combo(p1_scorecard);
+						if(combo_choice <= 6)
+						calculate_sums_score(p1_scorecard, five_dice, combo_choice);
+						else if (combo_choice > 6)
+							bubble_sort(five_dice);								//gets combo choice and does necessary functions to update scorecard
+						switch (combo_choice)
+						{
+						case 7:
+							check_3kind(p1_scorecard, five_dice);
+							break;
+						case 8:
+							check_4kind(p1_scorecard, five_dice);
+							break;
+						case 9:
+							check_full_house(p1_scorecard, five_dice);
+							break;
+						case 10: 
+							check_small_straight(p1_scorecard, five_dice);
+							break;
+						case 11:
+							check_large_straight(p1_scorecard, five_dice);
+							break;
+						case 12:
+							check_yahtzee(p1_scorecard, five_dice);
+							break;
+						case 13:
+							calculate_chance(p1_scorecard, five_dice);
+							break;
+						}
+
+						system("cls");
+						print_score(p1_scorecard, 13, player);
+						system("pause");
+					}
+
+					else if (player == 2)
+					{
+						print_score(p2_scorecard, 13, player);				//same as above but for player 2
+						combo_choice = choose_combo(p2_scorecard);
+						if (combo_choice <= 6)
+						calculate_sums_score(p2_scorecard, five_dice, combo_choice);
+						else if (combo_choice > 6)
+							bubble_sort(five_dice);
+						switch (combo_choice)
+						{
+						case 7:
+							check_3kind(p2_scorecard, five_dice);
+							break;
+						case 8:
+							check_4kind(p2_scorecard, five_dice);
+							break;
+						case 9:
+							check_full_house(p2_scorecard, five_dice);
+							break;
+						case 10:
+							check_small_straight(p2_scorecard, five_dice);
+							break;
+						case 11:
+							check_large_straight(p2_scorecard, five_dice);
+								break;
+						case 12: 
+							check_yahtzee(p2_scorecard, five_dice);
+							break;
+						case 13:
+							calculate_chance(p2_scorecard, five_dice);
+							break;
+						}
+
+						system("cls");
+						print_score(p2_scorecard, 13, player);
+						system("pause");
+					}
+				count_turns += 1;
+				player = count_turns % 2 + 1;			//counts the number of turns and updates player number
+				full_cards = check_full(p1_scorecard, p2_scorecard);	//checks if scorecards are full
+				
+
+
+			}
+			int total_score1 = 0, total_score2 = 0;
+			total_score1 = sum_score(p1_scorecard);		//sums up scores and determines who won
+			total_score2 = sum_score(p2_scorecard);
+			system("cls");
+			print_score(p1_scorecard, 13, 1);
+			print_score(p2_scorecard, 13, 2);
+			determine_winner(total_score1, total_score2);
+			system("pause");
+			system("cls");
+
+
+		}
+	}
+	return 0;
+}
